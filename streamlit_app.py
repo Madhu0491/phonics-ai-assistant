@@ -3,15 +3,21 @@ from app.llm import ask_llm
 st.title("Phonics Assistant")
 st.write("Lets learn sounds !!")
 
-#saving the data that is not exist
+
+st.sidebar.title("Phonics Chapters")
+lesson = st.sidebar.selectbox("Choose a lesson:",["Letter Sounds","Short Vowels","CVC words"])
+
+
+#saving the data that is not exist-createa conversation memory
 if "messages" not in st.session_state:
     st.session_state.messages = []
 #question = st.text_input("Ask me a phonics question:")
 question = st.chat_input("Ask me a phonics question:")   
-#condition-chat layer with question
+#condition-chat layer with question-Process question
 if question:
+    
     st.session_state.messages.append({"role":"user","content":question})#saving users message
-    llm_response=ask_llm(messages)#question to llm
+    llm_response=ask_llm( st.session_state.messages,lesson)#question to llm
     #st.write(llm_response)
     st.session_state.messages.append({"role":"assistant","content":llm_response})
 
